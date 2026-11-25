@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="en" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSX Pulse AI — Core Stock AI Prediction (SYS)</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config" data-stitch-original-src="e3d5916231278de6===../../tailwind.config.js">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'surface': '#0B0F14',
+        'on-surface': '#EEF1F8',
+        'surface-container-low': '#0E131A',
+        'surface-container': '#141922',
+        'on-surface-container': '#EEF1F8',
+        'surface-container-high': '#1B222E',
+        'on-surface-container-high': '#EEF1F8',
+        'on-surface-variant': '#94A3B8',
+        'outline': '#262F3F',
+        'outline-variant': '#1E2634',
+        'primary': '#10B981',
+        'on-primary': '#002113',
+        'primary-container': '#003824',
+        'on-primary-container': '#6FFBBE',
+        'secondary': '#38BDF8',
+        'on-secondary': '#001E2C',
+        'secondary-container': '#00354A',
+        'on-secondary-container': '#C4E7FF',
+        'tertiary': '#F59E0B',
+        'on-tertiary': '#2A1700',
+        'tertiary-container': '#472A00',
+        'on-tertiary-container': '#FFDDB8',
+        'error': '#EF4444',
+        'on-error': '#180002',
+        'error-container': '#410004',
+        'on-error-container': '#FFDAD7',
+        'slate-muted': '#64748B',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-2xs': '2px',
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '20px',
+        'page-margin': '16px',
+      },
+      fontFamily: {
+        'display': ['"Inter"', 'sans-serif'],
+        'headline': ['"Inter"', 'sans-serif'],
+        'title': ['"Inter"', 'sans-serif'],
+        'body': ['"Inter"', 'sans-serif'],
+        'label': ['"Inter"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '42px', letterSpacing: '-0.75px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'headline-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-sm': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['10px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '600' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '-0.3px', fontWeight: '700' }],
+        'mono-md': ['14px', { lineHeight: '20px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'mono-sm': ['11px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary/30 selection:text-on-surface">
+  <div class="min-h-screen w-full max-w-md mx-auto bg-surface flex flex-col">
+    <!-- Persistent Top Status Strip -->
+    <div class="sticky top-0 z-30 bg-surface-container/90 backdrop-blur-md border-b border-outline px-4 py-2.5 flex items-center justify-between gap-2">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container border border-primary/40">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-primary-container">PSX OPEN • 09:30–15:30 PKT</span>
+      </div>
+      <a href="../stock-screener/StockScreener.html" aria-label="Quick ticker search" class="w-8 h-8 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-title-sm">search</span>
+      </a>
+    </div>
+
+    <!-- Main Scrollable Content -->
+    <main class="flex-1 px-4 pt-4 pb-28 flex flex-col gap-4">
+      <!-- Stock Header Card -->
+      <section class="bg-surface-container border border-outline rounded-lg p-4 flex items-start justify-between gap-3">
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center gap-2">
+            <h1 data-design-text-token="display-lg-mobile" class="font-headline text-display-lg-mobile text-on-surface leading-none">SYS</h1>
+            <button id="star-btn" type="button" onclick="toggleStar(this)" aria-label="Bookmark SYS to watchlist" class="text-tertiary hover:scale-110 transition-transform">
+              <span id="star-icon" class="material-symbols-outlined text-headline-md" style="font-variation-settings: &#39;FILL&#39; 1;">star</span>
+            </button>
+          </div>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface-variant">Systems Limited</p>
+          <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
+            <span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label text-label-sm">KMI-30 Shariah</span>
+            <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label text-label-sm">Technology</span>
+          </div>
+        </div>
+        <div class="text-right flex flex-col items-end gap-1">
+          <span data-design-text-token="mono-lg" class="font-mono text-mono-lg text-on-surface tabular-nums">PKR 482.40</span>
+          <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary tabular-nums">+1.85% (+PKR 8.75)</span>
+        </div>
+      </section>
+
+      <!-- Interactive AI Prediction Graph Card -->
+      <section class="bg-surface-container border border-outline rounded-lg p-4 flex flex-col gap-3">
+        <!-- Floating Chart Overlay Badge -->
+        <div class="flex items-center justify-between gap-2">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container border border-primary/40">
+            <span class="material-symbols-outlined text-body-sm text-primary">auto_awesome</span>
+            <span data-design-text-token="mono-sm" id="forecast-badge" class="font-mono text-mono-sm text-on-primary-container tabular-nums">AI FORECAST • +7.8% EXPECTED • 74% CONFIDENCE</span>
+          </span>
+        </div>
+
+        <!-- Candlestick + Volume + Probability Cone SVG -->
+        <div class="relative w-full bg-surface-container-low border border-outline rounded-md p-2">
+          <svg viewBox="0 0 340 205" class="w-full h-52" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="30-day candlestick chart and AI probability confidence cone for Systems Limited">
+            <defs>
+              <linearGradient id="sysCone" x1="170" y1="95" x2="322" y2="55" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#10B981" stop-opacity="0.32"></stop>
+                <stop offset="100%" stop-color="#10B981" stop-opacity="0.08"></stop>
+              </linearGradient>
+            </defs>
+            <!-- Horizontal Price Grid -->
+            <line x1="8" y1="28" x2="328" y2="28" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+            <line x1="8" y1="68" x2="328" y2="68" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+            <line x1="8" y1="108" x2="328" y2="108" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+            <line x1="8" y1="148" x2="328" y2="148" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+
+            <!-- Left Half: Past 30D Candlesticks -->
+            <line x1="20" y1="115" x2="20" y2="142" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="16" y="122" width="8" height="14" rx="1.5" fill="#EF4444"></rect>
+            <line x1="36" y1="110" x2="36" y2="138" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="32" y="116" width="8" height="15" rx="1.5" fill="#10B981"></rect>
+            <line x1="52" y1="104" x2="52" y2="132" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="48" y="110" width="8" height="14" rx="1.5" fill="#10B981"></rect>
+            <line x1="68" y1="108" x2="68" y2="136" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="64" y="114" width="8" height="12" rx="1.5" fill="#EF4444"></rect>
+            <line x1="84" y1="98" x2="84" y2="128" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="80" y="104" width="8" height="16" rx="1.5" fill="#10B981"></rect>
+            <line x1="100" y1="92" x2="100" y2="120" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="96" y="96" width="8" height="16" rx="1.5" fill="#10B981"></rect>
+            <line x1="116" y1="95" x2="116" y2="124" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="112" y="102" width="8" height="13" rx="1.5" fill="#EF4444"></rect>
+            <line x1="132" y1="86" x2="132" y2="116" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="128" y="92" width="8" height="16" rx="1.5" fill="#10B981"></rect>
+            <line x1="148" y1="82" x2="148" y2="110" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="144" y="88" width="8" height="14" rx="1.5" fill="#10B981"></rect>
+            <line x1="164" y1="78" x2="164" y2="104" stroke="#64748B" stroke-width="1.2"></line>
+            <rect x="160" y="84" width="8" height="14" rx="1.5" fill="#10B981"></rect>
+
+            <!-- Volume Bars Underneath (Left Half) -->
+            <rect x="16" y="182" width="8" height="14" rx="1" fill="#EF4444" fill-opacity="0.45"></rect>
+            <rect x="32" y="178" width="8" height="18" rx="1" fill="#10B981" fill-opacity="0.45"></rect>
+            <rect x="48" y="174" width="8" height="22" rx="1" fill="#10B981" fill-opacity="0.45"></rect>
+            <rect x="64" y="184" width="8" height="12" rx="1" fill="#EF4444" fill-opacity="0.45"></rect>
+            <rect x="80" y="176" width="8" height="20" rx="1" fill="#10B981" fill-opacity="0.45"></rect>
+            <rect x="96" y="170" width="8" height="26" rx="1" fill="#10B981" fill-opacity="0.55"></rect>
+            <rect x="112" y="182" width="8" height="14" rx="1" fill="#EF4444" fill-opacity="0.45"></rect>
+            <rect x="128" y="172" width="8" height="24" rx="1" fill="#10B981" fill-opacity="0.55"></rect>
+            <rect x="144" y="168" width="8" height="28" rx="1" fill="#10B981" fill-opacity="0.65"></rect>
+            <rect x="160" y="162" width="8" height="34" rx="1" fill="#10B981" fill-opacity="0.75"></rect>
+
+            <!-- Center Vertical Dashed Divider: NOW -->
+            <line x1="174" y1="16" x2="174" y2="196" stroke="#38BDF8" stroke-width="1.2" stroke-dasharray="4 4"></line>
+            <rect x="158" y="2" width="32" height="14" rx="4" fill="#00354A"></rect>
+            <text x="174" y="12" text-anchor="middle" fill="#C4E7FF" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700">NOW</text>
+
+            <!-- Right Half: Shaded Emerald AI Probability Confidence Cone -->
+            <path d="M174 88 L322 24 L322 114 Z" fill="url(#sysCone)"></path>
+            <!-- Upper Bound (90th Percentile: PKR 542.00) -->
+            <path d="M174 88 L322 24" stroke="#10B981" stroke-width="1.5" stroke-opacity="0.85"></path>
+            <!-- Lower Bound (10th Percentile: PKR 475.00) -->
+            <path d="M174 88 L322 114" stroke="#10B981" stroke-width="1.2" stroke-opacity="0.5"></path>
+            <!-- Bold Dotted Median Target Line (PKR 520.10) -->
+            <path d="M174 88 Q248 64 322 50" stroke="#10B981" stroke-width="2.5" stroke-dasharray="5 3"></path>
+
+            <circle cx="174" cy="88" r="4" fill="#10B981" stroke="#0B0F14" stroke-width="2"></circle>
+            <circle cx="322" cy="50" r="4" fill="#10B981"></circle>
+
+            <!-- Target Callouts -->
+            <text x="234" y="22" fill="#6FFBBE" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="600">90th: PKR 542.00</text>
+            <text x="234" y="53" fill="#EEF1F8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">Median: 520.10</text>
+            <text x="234" y="125" fill="#94A3B8" font-family="JetBrains Mono, monospace" font-size="8.5">10th: PKR 475.00</text>
+          </svg>
+        </div>
+
+        <!-- Timeframe Selector Pills & Forecast Horizon Toggle -->
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-1 bg-surface-container-low border border-outline rounded-md p-1">
+            <button type="button" onclick="selectTimeframe(this)" class="tf-btn flex-1 py-1 rounded font-mono text-mono-sm text-on-surface-variant hover:text-on-surface">1D</button>
+            <button type="button" onclick="selectTimeframe(this)" class="tf-btn flex-1 py-1 rounded font-mono text-mono-sm text-on-surface-variant hover:text-on-surface">1W</button>
+            <button type="button" onclick="selectTimeframe(this)" class="tf-btn flex-1 py-1 rounded font-mono text-mono-sm bg-surface-container-high text-on-surface border border-outline">1M</button>
+            <button type="button" onclick="selectTimeframe(this)" class="tf-btn flex-1 py-1 rounded font-mono text-mono-sm text-on-surface-variant hover:text-on-surface">3M</button>
+            <button type="button" onclick="selectTimeframe(this)" class="tf-btn flex-1 py-1 rounded font-mono text-mono-sm text-on-surface-variant hover:text-on-surface">1Y</button>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="selectHorizon(this, &#39;+4.1%&#39;, &#39;81%&#39;)" class="hz-btn py-1.5 rounded-full bg-surface-container-high border border-outline font-label text-label-sm text-on-surface-variant">Predict 5D</button>
+            <button type="button" onclick="selectHorizon(this, &#39;+7.8%&#39;, &#39;74%&#39;)" class="hz-btn py-1.5 rounded-full bg-primary-container border border-primary/50 font-label text-label-sm text-on-primary-container">Predict 15D</button>
+            <button type="button" onclick="selectHorizon(this, &#39;+12.4%&#39;, &#39;66%&#39;)" class="hz-btn py-1.5 rounded-full bg-surface-container-high border border-outline font-label text-label-sm text-on-surface-variant">Predict 30D</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI Verdict & Explainability ("Why This Prediction?") Card -->
+      <section class="bg-surface-container border border-outline rounded-lg p-4 flex flex-col gap-3.5">
+        <div class="flex items-center justify-between gap-2">
+          <h2 data-design-text-token="title-md" class="font-headline text-title-md text-on-surface">Why This Prediction?</h2>
+          <span data-design-text-token="label-sm" class="font-label text-label-sm text-secondary">SHAP EXPLAINABILITY</span>
+        </div>
+
+        <!-- Verdict Banner -->
+        <div class="bg-primary-container border border-primary/40 rounded-md p-3 flex items-center justify-between gap-2">
+          <div class="flex flex-col gap-0.5">
+            <span data-design-text-token="label-md" class="font-label text-label-md text-on-primary-container">PROFIT PROBABILITY: 78% BULLISH</span>
+            <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary tabular-nums">Expected Gain: +PKR 37.70 / share</span>
+          </div>
+          <span class="material-symbols-outlined text-headline-md text-primary">verified</span>
+        </div>
+
+        <!-- Segmented Sentiment Breakdown Bar -->
+        <div class="flex flex-col gap-1.5">
+          <div class="w-full h-2.5 rounded-full overflow-hidden flex gap-0.5 bg-surface-container-low">
+            <div class="bg-primary h-full" style="width: 78%;"></div>
+            <div class="bg-slate-muted h-full" style="width: 15%;"></div>
+            <div class="bg-error h-full" style="width: 7%;"></div>
+          </div>
+          <div class="flex items-center justify-between font-mono text-mono-sm tabular-nums">
+            <span class="text-primary">78% Bullish</span>
+            <span class="text-on-surface-variant">15% Neutral</span>
+            <span class="text-error">7% Bearish</span>
+          </div>
+        </div>
+
+        <!-- Top 3 AI Feature Drivers -->
+        <div class="flex flex-col gap-2 pt-1 border-t border-outline">
+          <div class="flex items-start gap-2.5">
+            <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary bg-primary-container px-2 py-0.5 rounded shrink-0 tabular-nums">+38%</span>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface">Official PSX PUCARS Q3 earnings beat &amp; dividend announcement.</p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary bg-primary-container px-2 py-0.5 rounded shrink-0 tabular-nums">+24%</span>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface">Institutional volume Z-score +2.4σ above 20-day average.</p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-secondary bg-secondary-container px-2 py-0.5 rounded shrink-0 tabular-nums">+16%</span>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface">Positive IT export remittance macro trend.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PSX Risk & Circuit Breaker Strip -->
+      <section class="bg-surface-container border border-outline rounded-lg p-4 flex flex-col gap-2.5">
+        <span data-design-text-token="title-sm" class="font-title text-title-sm text-on-surface">PSX Risk &amp; Circuit Breaker Strip</span>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="bg-surface-container-low border border-outline rounded-md p-2.5 flex flex-col gap-0.5">
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">Daily Upper Lock</span>
+            <span data-design-text-token="mono-md" class="font-mono text-mono-md text-primary tabular-nums">PKR 518.58</span>
+          </div>
+          <div class="bg-surface-container-low border border-outline rounded-md p-2.5 flex flex-col gap-0.5">
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">Daily Lower Lock</span>
+            <span data-design-text-token="mono-md" class="font-mono text-mono-md text-error tabular-nums">PKR 446.22</span>
+          </div>
+          <div class="bg-surface-container-low border border-outline rounded-md p-2.5 flex flex-col gap-0.5">
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">Next Ex-Dividend</span>
+            <span data-design-text-token="mono-md" class="font-mono text-mono-md text-on-surface tabular-nums">14 Dec</span>
+          </div>
+          <div class="bg-surface-container-low border border-outline rounded-md p-2.5 flex flex-col gap-0.5">
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">Volatility Risk</span>
+            <span data-design-text-token="mono-md" class="font-mono text-mono-md text-tertiary">Moderate</span>
+          </div>
+        </div>
+      </section>
+
+      <p data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant text-center">
+        Probabilistic AI analytics for educational purposes only. Not SECP-registered investment advice.
+      </p>
+    </main>
+
+    <!-- Persistent 5-Tab Bottom Navigation Bar -->
+    <nav aria-label="Primary Navigation" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md z-40 bg-surface-container/90 backdrop-blur-md border-t border-outline px-2 py-2 grid grid-cols-5 items-end">
+      <a href="../home-dashboard/HomeDashboard.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">home</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">Home</span>
+      </a>
+      <a href="../stock-screener/StockScreener.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">manage_search</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">Screener</span>
+      </a>
+      <a href="../ai-forecast/AiForecast.html" aria-current="page" class="flex flex-col items-center justify-center gap-1 -mt-5">
+        <span class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg shadow-primary/40 ring-4 ring-surface">
+          <span class="material-symbols-outlined text-headline-md" style="font-variation-settings: &#39;FILL&#39; 1;">auto_awesome</span>
+        </span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm text-primary">AI Forecast</span>
+      </a>
+      <a href="../news-rumors/NewsRumors.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">newspaper</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">News</span>
+      </a>
+      <a href="../track-record/TrackRecord.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">verified</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">Track</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function toggleStar(btn) {
+      const icon = document.getElementById('star-icon');
+      const filled = icon.style.fontVariationSettings.includes('1');
+      icon.style.fontVariationSettings = filled ? "'FILL' 0" : "'FILL' 1";
+      btn.classList.toggle('text-tertiary', !filled);
+      btn.classList.toggle('text-on-surface-variant', filled);
+    }
+    function selectTimeframe(btn) {
+      document.querySelectorAll('.tf-btn').forEach(el => {
+        el.className = 'tf-btn flex-1 py-1 rounded font-mono text-mono-sm text-on-surface-variant hover:text-on-surface';
+      });
+      btn.className = 'tf-btn flex-1 py-1 rounded font-mono text-mono-sm bg-surface-container-high text-on-surface border border-outline';
+    }
+    function selectHorizon(btn, ret, conf) {
+      document.querySelectorAll('.hz-btn').forEach(el => {
+        el.className = 'hz-btn py-1.5 rounded-full bg-surface-container-high border border-outline font-label text-label-sm text-on-surface-variant';
+      });
+      btn.className = 'hz-btn py-1.5 rounded-full bg-primary-container border border-primary/50 font-label text-label-sm text-on-primary-container';
+      document.getElementById('forecast-badge').textContent = `AI FORECAST • ${ret} EXPECTED • ${conf} CONFIDENCE`;
+    }
+  </script>
+
+
+</body></html>

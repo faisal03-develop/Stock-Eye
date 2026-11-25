@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSX Pulse AI — Model Backtest &amp; Track Record</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config" data-stitch-original-src="e3d5916231278de6===../../tailwind.config.js">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'surface': '#0B0F14',
+        'on-surface': '#EEF1F8',
+        'surface-container-low': '#0E131A',
+        'surface-container': '#141922',
+        'on-surface-container': '#EEF1F8',
+        'surface-container-high': '#1B222E',
+        'on-surface-container-high': '#EEF1F8',
+        'on-surface-variant': '#94A3B8',
+        'outline': '#262F3F',
+        'outline-variant': '#1E2634',
+        'primary': '#10B981',
+        'on-primary': '#002113',
+        'primary-container': '#003824',
+        'on-primary-container': '#6FFBBE',
+        'secondary': '#38BDF8',
+        'on-secondary': '#001E2C',
+        'secondary-container': '#00354A',
+        'on-secondary-container': '#C4E7FF',
+        'tertiary': '#F59E0B',
+        'on-tertiary': '#2A1700',
+        'tertiary-container': '#472A00',
+        'on-tertiary-container': '#FFDDB8',
+        'error': '#EF4444',
+        'on-error': '#180002',
+        'error-container': '#410004',
+        'on-error-container': '#FFDAD7',
+        'slate-muted': '#64748B',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-2xs': '2px',
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '20px',
+        'page-margin': '16px',
+      },
+      fontFamily: {
+        'display': ['"Inter"', 'sans-serif'],
+        'headline': ['"Inter"', 'sans-serif'],
+        'title': ['"Inter"', 'sans-serif'],
+        'body': ['"Inter"', 'sans-serif'],
+        'label': ['"Inter"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '42px', letterSpacing: '-0.75px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'headline-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-sm': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['10px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '600' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '-0.3px', fontWeight: '700' }],
+        'mono-md': ['14px', { lineHeight: '20px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'mono-sm': ['11px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary/30 selection:text-on-surface">
+  <div class="min-h-screen w-full max-w-md mx-auto bg-surface flex flex-col">
+    <!-- Persistent Top Status Strip -->
+    <div class="sticky top-0 z-30 bg-surface-container/90 backdrop-blur-md border-b border-outline px-4 py-2.5 flex items-center justify-between gap-2">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container border border-primary/40">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-primary-container">PSX OPEN • 09:30–15:30 PKT</span>
+      </div>
+      <a href="../stock-screener/StockScreener.html" aria-label="Quick ticker search" class="w-8 h-8 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-title-sm">search</span>
+      </a>
+    </div>
+
+    <!-- Main Scrollable Content -->
+    <main class="flex-1 px-4 pt-4 pb-28 flex flex-col gap-4">
+      <header>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm text-secondary uppercase tracking-wider">Walk-Forward Calibration</span>
+        <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg text-on-surface">AI Model Transparency &amp; Audit</h1>
+      </header>
+
+      <!-- Hero Accuracy Card -->
+      <section class="bg-surface-container border border-outline rounded-lg p-4 flex items-center gap-4">
+        <!-- Circular Progress Ring -->
+        <div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+          <svg viewBox="0 0 96 96" class="w-24 h-24 -rotate-90" role="img" aria-label="76.4% Hit Rate">
+            <circle cx="48" cy="48" r="40" stroke="#1B222E" stroke-width="8" fill="none"></circle>
+            <circle cx="48" cy="48" r="40" stroke="#10B981" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="59.3"></circle>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span data-design-text-token="mono-md" class="font-mono text-mono-md text-on-surface tabular-nums">76.4%</span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-primary">Hit Rate</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface">
+            Across <span class="font-mono text-mono-md text-on-surface tabular-nums">1,420</span> historical PSX predictions over the last 90 days.
+          </p>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-primary-container border border-primary/30 self-start">
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-primary-container">Avg. Return per Winning Call:</span>
+            <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary tabular-nums">+6.2%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Historical Forecast vs. Actual Price Chart -->
+      <section class="bg-surface-container border border-outline rounded-lg p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between gap-2">
+          <h2 data-design-text-token="title-md" class="font-headline text-title-md text-on-surface">Forecast vs. Actual Price (KSE-100)</h2>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-0.5 bg-secondary inline-block"></span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">AI Predicted Median</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-0.5 bg-primary inline-block"></span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">Actual PSX Close</span>
+          </div>
+        </div>
+        <svg viewBox="0 0 326 120" class="w-full h-32 bg-surface-container-low border border-outline rounded-md p-2" fill="none">
+          <line x1="8" y1="24" x2="318" y2="24" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+          <line x1="8" y1="60" x2="318" y2="60" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+          <line x1="8" y1="96" x2="318" y2="96" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+          <!-- AI Predicted Median -->
+          <path d="M12 94 L56 84 L100 78 L144 64 L188 58 L232 42 L276 34 L314 22" stroke="#38BDF8" stroke-width="2" stroke-dasharray="4 3"></path>
+          <!-- Actual PSX Closing Price -->
+          <path d="M12 96 L56 88 L100 74 L144 68 L188 52 L232 45 L276 30 L314 18" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"></path>
+          <circle cx="314" cy="18" r="3.5" fill="#10B981"></circle>
+          <circle cx="314" cy="22" r="3" fill="#38BDF8"></circle>
+        </svg>
+      </section>
+
+      <!-- Recent Closed Predictions Log -->
+      <section class="flex flex-col gap-2.5">
+        <h2 data-design-text-token="title-md" class="font-headline text-title-md text-on-surface">Recent Closed Predictions Log</h2>
+        <div class="bg-surface-container border border-outline rounded-lg divide-y divide-outline">
+          <!-- MEBL -->
+          <div class="p-3.5 flex items-center justify-between gap-2">
+            <div class="flex flex-col gap-0.5">
+              <span data-design-text-token="title-sm" class="font-headline text-title-sm text-on-surface">MEBL 7D Forecast</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant tabular-nums">Predicted +5.2% → Actual +6.1%</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-mono text-mono-sm">HIT ✓</span>
+          </div>
+
+          <!-- LUCK -->
+          <div class="p-3.5 flex items-center justify-between gap-2">
+            <div class="flex flex-col gap-0.5">
+              <span data-design-text-token="title-sm" class="font-headline text-title-sm text-on-surface">LUCK 7D Forecast</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant tabular-nums">Predicted +4.0% → Actual +3.8%</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-mono text-mono-sm">HIT ✓</span>
+          </div>
+
+          <!-- PSO -->
+          <div class="p-3.5 flex items-center justify-between gap-2">
+            <div class="flex flex-col gap-0.5">
+              <span data-design-text-token="title-sm" class="font-headline text-title-sm text-on-surface">PSO 7D Forecast</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant tabular-nums">Predicted +3.5% → Actual -1.2%</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-mono text-mono-sm">MISS ✕</span>
+          </div>
+
+          <!-- SYS -->
+          <div class="p-3.5 flex items-center justify-between gap-2">
+            <div class="flex flex-col gap-0.5">
+              <span data-design-text-token="title-sm" class="font-headline text-title-sm text-on-surface">SYS 7D Forecast</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant tabular-nums">Predicted +6.8% → Actual +7.4%</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-mono text-mono-sm">HIT ✓</span>
+          </div>
+        </div>
+      </section>
+
+      <p data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant text-center">
+        Probabilistic AI analytics for educational purposes only. Not SECP-registered investment advice.
+      </p>
+    </main>
+
+    <!-- Persistent 5-Tab Bottom Navigation Bar -->
+    <nav aria-label="Primary Navigation" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md z-40 bg-surface-container/90 backdrop-blur-md border-t border-outline px-2 py-2 grid grid-cols-5 items-end">
+      <a href="../home-dashboard/HomeDashboard.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">home</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">Home</span>
+      </a>
+      <a href="../stock-screener/StockScreener.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">manage_search</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">Screener</span>
+      </a>
+      <a href="../ai-forecast/AiForecast.html" class="flex flex-col items-center justify-center gap-1 -mt-5">
+        <span class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-surface">
+          <span class="material-symbols-outlined text-headline-md">auto_awesome</span>
+        </span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">AI Forecast</span>
+      </a>
+      <a href="../news-rumors/NewsRumors.html" class="flex flex-col items-center justify-center gap-1 py-1 text-on-surface-variant hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-headline-md">newspaper</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">News</span>
+      </a>
+      <a href="../track-record/TrackRecord.html" aria-current="page" class="flex flex-col items-center justify-center gap-1 py-1 text-primary">
+        <span class="material-symbols-outlined text-headline-md" style="font-variation-settings: &#39;FILL&#39; 1;">verified</span>
+        <span data-design-text-token="label-sm" class="font-label text-label-sm">Track</span>
+      </a>
+    </nav>
+  </div>
+
+
+</body></html>
