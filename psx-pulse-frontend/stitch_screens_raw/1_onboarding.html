@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="en" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSX Pulse AI — Onboarding &amp; Profile Setup</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config" data-stitch-original-src="e3d5916231278de6===../../tailwind.config.js">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'surface': '#0B0F14',
+        'on-surface': '#EEF1F8',
+        'surface-container-low': '#0E131A',
+        'surface-container': '#141922',
+        'on-surface-container': '#EEF1F8',
+        'surface-container-high': '#1B222E',
+        'on-surface-container-high': '#EEF1F8',
+        'on-surface-variant': '#94A3B8',
+        'outline': '#262F3F',
+        'outline-variant': '#1E2634',
+        'primary': '#10B981',
+        'on-primary': '#002113',
+        'primary-container': '#003824',
+        'on-primary-container': '#6FFBBE',
+        'secondary': '#38BDF8',
+        'on-secondary': '#001E2C',
+        'secondary-container': '#00354A',
+        'on-secondary-container': '#C4E7FF',
+        'tertiary': '#F59E0B',
+        'on-tertiary': '#2A1700',
+        'tertiary-container': '#472A00',
+        'on-tertiary-container': '#FFDDB8',
+        'error': '#EF4444',
+        'on-error': '#180002',
+        'error-container': '#410004',
+        'on-error-container': '#FFDAD7',
+        'slate-muted': '#64748B',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-2xs': '2px',
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '20px',
+        'page-margin': '16px',
+      },
+      fontFamily: {
+        'display': ['"Inter"', 'sans-serif'],
+        'headline': ['"Inter"', 'sans-serif'],
+        'title': ['"Inter"', 'sans-serif'],
+        'body': ['"Inter"', 'sans-serif'],
+        'label': ['"Inter"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '42px', letterSpacing: '-0.75px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'headline-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-sm': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['10px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '600' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '-0.3px', fontWeight: '700' }],
+        'mono-md': ['14px', { lineHeight: '20px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'mono-sm': ['11px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary/30 selection:text-on-surface">
+  <div class="min-h-screen w-full max-w-md mx-auto bg-surface flex flex-col justify-between px-4 py-6 gap-6">
+    <!-- Top Brand & Market Pill -->
+    <header class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-DEFAULT bg-primary-container border border-primary/40 flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-title-md">query_stats</span>
+        </div>
+        <span data-design-text-token="title-md" class="font-headline text-title-md text-on-surface tracking-tight">PSX Pulse AI</span>
+      </div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container border border-outline">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary">KSE-100 LIVE</span>
+      </span>
+    </header>
+
+    <!-- Minimalist Dark Hero Graphic: Candlestick morphing into upward emerald probability cone -->
+    <main class="flex flex-col gap-6 flex-1">
+      <section class="relative bg-surface-container border border-outline rounded-lg p-4 overflow-hidden">
+        <div class="flex items-center justify-between mb-2">
+          <span data-design-text-token="label-sm" class="font-label text-label-sm text-secondary uppercase tracking-wider">Quantitative Forecast Engine</span>
+          <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-primary tabular-nums">90D HIT RATE 76.4%</span>
+        </div>
+        <svg viewBox="0 0 326 140" class="w-full h-36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Candlestick chart morphing into an upward emerald probability cone">
+          <defs>
+            <linearGradient id="coneGrad" x1="165" y1="78" x2="318" y2="26" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#10B981" stop-opacity="0.35"></stop>
+              <stop offset="100%" stop-color="#10B981" stop-opacity="0.06"></stop>
+            </linearGradient>
+            <linearGradient id="lineGlow" x1="165" y1="78" x2="318" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#10B981"></stop>
+              <stop offset="100%" stop-color="#38BDF8"></stop>
+            </linearGradient>
+          </defs>
+          <!-- Subtle grid lines -->
+          <line x1="0" y1="32" x2="326" y2="32" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+          <line x1="0" y1="72" x2="326" y2="72" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+          <line x1="0" y1="112" x2="326" y2="112" stroke="#262F3F" stroke-width="1" stroke-dasharray="3 3"></line>
+
+          <!-- Historical Candlesticks (Left Half) -->
+          <line x1="22" y1="88" x2="22" y2="118" stroke="#64748B" stroke-width="1.5"></line>
+          <rect x="17" y="96" width="10" height="14" rx="2" fill="#EF4444"></rect>
+
+          <line x1="46" y1="82" x2="46" y2="112" stroke="#64748B" stroke-width="1.5"></line>
+          <rect x="41" y="88" width="10" height="16" rx="2" fill="#10B981"></rect>
+
+          <line x1="70" y1="74" x2="70" y2="104" stroke="#64748B" stroke-width="1.5"></line>
+          <rect x="65" y="80" width="10" height="15" rx="2" fill="#10B981"></rect>
+
+          <line x1="94" y1="78" x2="94" y2="108" stroke="#64748B" stroke-width="1.5"></line>
+          <rect x="89" y="84" width="10" height="12" rx="2" fill="#EF4444"></rect>
+
+          <line x1="118" y1="68" x2="118" y2="98" stroke="#64748B" stroke-width="1.5"></line>
+          <rect x="113" y="74" width="10" height="16" rx="2" fill="#10B981"></rect>
+
+          <line x1="142" y1="60" x2="142" y2="92" stroke="#64748B" stroke-width="1.5"></line>
+          <rect x="137" y="66" width="10" height="18" rx="2" fill="#10B981"></rect>
+
+          <!-- NOW Divider -->
+          <line x1="165" y1="12" x2="165" y2="128" stroke="#38BDF8" stroke-width="1.2" stroke-dasharray="4 4"></line>
+          <rect x="149" y="4" width="32" height="14" rx="4" fill="#00354A"></rect>
+          <text x="165" y="14" text-anchor="middle" fill="#C4E7FF" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700">NOW</text>
+
+          <!-- Upward Emerald Probability Cone (Right Half) -->
+          <path d="M165 74 L314 18 L314 96 Z" fill="url(#coneGrad)"></path>
+          <path d="M165 74 L314 18" stroke="#10B981" stroke-width="1.2" stroke-opacity="0.7"></path>
+          <path d="M165 74 L314 96" stroke="#10B981" stroke-width="1.2" stroke-opacity="0.4"></path>
+          <!-- Median AI Target Line -->
+          <path d="M165 74 Q238 56 314 42" stroke="url(#lineGlow)" stroke-width="2.5" stroke-dasharray="5 3"></path>
+          <circle cx="165" cy="74" r="4" fill="#10B981" stroke="#0B0F14" stroke-width="2"></circle>
+          <circle cx="314" cy="42" r="4" fill="#38BDF8"></circle>
+        </svg>
+
+        <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg text-on-surface text-balance mt-2">
+          Institutional AI &amp; Sentiment Intelligence for the Pakistan Stock Exchange.
+        </h1>
+        <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant mt-2 text-pretty">
+          Calibrate your 500+ PSX ticker workspace with Shariah filters, horizon models, and PUCARS-weighted NLP signals.
+        </p>
+      </section>
+
+      <!-- Interactive Preference Setup -->
+      <section class="flex flex-col gap-4">
+        <!-- Trading Horizon -->
+        <div class="bg-surface-container border border-outline rounded-lg p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span data-design-text-token="title-sm" class="font-title text-title-sm text-on-surface">Trading Horizon</span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant">Select 1</span>
+          </div>
+          <div class="flex flex-wrap gap-2" id="horizon-chips">
+            <button data-component-id="chip-filter-selected" data-component-type="chip" data-component-variant="filter" aria-pressed="true" type="button" onclick="selectHorizon(this)" class="horizon-chip inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-primary-container border border-primary/50 text-on-primary-container transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md" class="font-label text-label-md">Intraday / Swing (1–5D)</span>
+            </button>
+            <button data-component-id="chip-action" data-component-type="chip" data-component-variant="filter" aria-pressed="false" type="button" onclick="selectHorizon(this)" class="horizon-chip inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-container-high border border-outline text-on-surface-variant hover:text-on-surface transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md" class="font-label text-label-md">Short-Term (1W–1M)</span>
+            </button>
+            <button data-component-id="chip-action" data-component-type="chip" data-component-variant="filter" aria-pressed="false" type="button" onclick="selectHorizon(this)" class="horizon-chip inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-container-high border border-outline text-on-surface-variant hover:text-on-surface transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md" class="font-label text-label-md">Long-Term Value (3M+)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Shariah Compliance Filter Toggle -->
+        <div class="bg-surface-container border border-outline rounded-lg p-4 flex items-center justify-between gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-md bg-primary-container border border-primary/40 flex items-center justify-center text-on-primary-container shrink-0">
+              <span class="material-symbols-outlined text-title-md">nights_stay</span>
+            </div>
+            <div class="flex flex-col gap-0.5">
+              <div class="flex items-center gap-2">
+                <span data-design-text-token="title-sm" class="font-title text-title-sm text-on-surface">Show KMI-30 Islamic Compliant Stocks Only</span>
+              </div>
+              <span data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Filter out conventional banks &amp; non-Shariah debt ratios</span>
+            </div>
+          </div>
+          <button id="kmi-toggle" type="button" role="switch" aria-checked="true" aria-label="Toggle KMI-30 Islamic Compliant Stocks Only" onclick="toggleShariah(this)" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border border-primary/50 bg-primary transition-colors duration-state-change ease-state-change focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+            <span id="kmi-knob" class="pointer-events-none inline-block h-5 w-5 translate-x-5 rounded-full bg-on-primary transition-transform duration-state-change ease-state-change mt-0.5 ml-0.5"></span>
+          </button>
+        </div>
+
+        <!-- Risk Appetite Slider -->
+        <div class="bg-surface-container border border-outline rounded-lg p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span data-design-text-token="title-sm" class="font-title text-title-sm text-on-surface">Risk Appetite</span>
+            <span id="risk-label" data-design-text-token="mono-sm" class="font-mono text-mono-sm text-secondary">BALANCED</span>
+          </div>
+          <input id="risk-slider" type="range" min="1" max="3" step="1" value="2" aria-label="Risk Appetite" oninput="updateRisk(this.value)" class="w-full h-2 bg-surface-container-high rounded-full appearance-none cursor-pointer accent-primary">
+          <div class="flex items-center justify-between text-on-surface-variant">
+            <span data-design-text-token="label-sm" class="font-label text-label-sm">Conservative</span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface">Balanced</span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm">Aggressive</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Primary CTA & Compliance Note -->
+    <footer class="flex flex-col gap-3">
+      <!-- COMPONENT: button-primary -->
+      <a href="../home-dashboard/HomeDashboard.html" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-md bg-gradient-to-r from-primary to-secondary text-on-primary font-label hover:opacity-90 active:scale-95 transition-opacity duration-state-change ease-state-change">
+        <span data-design-text-token="label-lg" class="font-label text-label-lg">Launch PSX AI Dashboard</span>
+        <span class="material-symbols-outlined text-title-md" aria-hidden="true">arrow_forward</span>
+      </a>
+      <p data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant text-center">
+        Probabilistic AI analytics for educational purposes only. Not SECP-registered investment advice.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    function selectHorizon(btn) {
+      document.querySelectorAll('.horizon-chip').forEach(el => {
+        el.setAttribute('aria-pressed', 'false');
+        el.className = 'horizon-chip inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-container-high border border-outline text-on-surface-variant hover:text-on-surface transition-colors duration-state-change ease-state-change';
+      });
+      btn.setAttribute('aria-pressed', 'true');
+      btn.className = 'horizon-chip inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-primary-container border border-primary/50 text-on-primary-container transition-colors duration-state-change ease-state-change';
+    }
+    function toggleShariah(btn) {
+      const checked = btn.getAttribute('aria-checked') === 'true';
+      const next = !checked;
+      btn.setAttribute('aria-checked', String(next));
+      const knob = document.getElementById('kmi-knob');
+      if (next) {
+        btn.classList.remove('bg-surface-container-high', 'border-outline');
+        btn.classList.add('bg-primary', 'border-primary/50');
+        knob.classList.remove('translate-x-0', 'bg-on-surface-variant');
+        knob.classList.add('translate-x-5', 'bg-on-primary');
+      } else {
+        btn.classList.remove('bg-primary', 'border-primary/50');
+        btn.classList.add('bg-surface-container-high', 'border-outline');
+        knob.classList.remove('translate-x-5', 'bg-on-primary');
+        knob.classList.add('translate-x-0', 'bg-on-surface-variant');
+      }
+    }
+    function updateRisk(val) {
+      const map = { '1': 'CONSERVATIVE', '2': 'BALANCED', '3': 'AGGRESSIVE' };
+      document.getElementById('risk-label').textContent = map[val] || 'BALANCED';
+    }
+  </script>
+
+
+</body></html>
